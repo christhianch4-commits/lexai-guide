@@ -1,0 +1,369 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   LexAI Guide — Design Tokens
+   Editorial-Legal Dark. Authority without intimidation.
+   ========================================================================== */
+
+:root {
+  /* Color — exactly 5 */
+  --color-ink: #0f1923; /* near-black blue — headlines, navbar */
+  --color-paper: #f8f6f1; /* warm cream — main background */
+  --color-authority: #1b4f72; /* deep navy — CTAs, active links, accents */
+  --color-signal: #e8533a; /* coral red — urgent badges, highlights */
+  --color-mist: #e4e8ec; /* light blue-grey — borders, dividers, cards */
+
+  /* Derived surface tones (same 5-hue family, not new colors) */
+  --color-ink-soft: #33404c; /* ink at reduced contrast, for muted text */
+  --color-authority-soft: #ebf0f7; /* authority tint for quick-answer boxes */
+  --color-authority-dark: #123a56; /* authority, hover/pressed state */
+  --color-paper-raised: #ffffff; /* card surface atop paper */
+
+  /* Typography families */
+  --font-display: "Playfair Display", ui-serif, Georgia, serif;
+  --font-body: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+
+  /* Typographic scale */
+  --text-hero: clamp(3.25rem, 7vw, 5.5rem);
+  --text-h1: clamp(2.25rem, 5vw, 3.5rem);
+  --text-h2: clamp(1.5rem, 3vw, 2rem);
+  --text-h3: 1.25rem;
+  --text-body: 1.0625rem;
+  --text-small: 0.875rem;
+  --text-caption: 0.75rem;
+
+  /* Motion */
+  --transition-base: 200ms ease-out;
+  --transition-smooth: 400ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-spring: 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Layout */
+  --container-max: 1280px;
+  --container-pad: clamp(16px, 4vw, 80px);
+  --radius-card: 8px;
+}
+
+@theme inline {
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-paper: var(--color-paper);
+  --color-paper-raised: var(--color-paper-raised);
+  --color-authority: var(--color-authority);
+  --color-authority-soft: var(--color-authority-soft);
+  --color-authority-dark: var(--color-authority-dark);
+  --color-signal: var(--color-signal);
+  --color-mist: var(--color-mist);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --radius-card: var(--radius-card);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--text-body);
+  line-height: 1.75;
+  color: var(--color-ink);
+  background-color: var(--color-paper);
+  /* A near-invisible grain, tiled from a tiny inline SVG — gives the cream
+     background a paper-like tactility instead of a flat, generic fill.
+     Kept at ~4% opacity so it never competes with text contrast. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  color: var(--color-ink);
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--color-signal);
+  color: var(--color-paper);
+}
+
+/* Keyboard-accessible focus ring, consistent with the authority accent */
+:focus-visible {
+  outline: 2px solid var(--color-authority);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ==========================================================================
+   Layout primitives
+   ========================================================================== */
+
+.container-page {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+/* ==========================================================================
+   Signature element — the 2px authority line
+   Appears beside quotes, disclaimers, stats, and (as border-bottom) the
+   navbar on scroll. Sutil, consistente, distintivo.
+   ========================================================================== */
+
+.signature-line {
+  position: relative;
+  padding-left: 1.25rem;
+}
+
+.signature-line::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 2px;
+  background: var(--color-authority);
+}
+
+/* ==========================================================================
+   Typography utilities driven by the scale above
+   ========================================================================== */
+
+.text-hero {
+  font-size: var(--text-hero);
+  line-height: 1.04;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.text-display-h1 {
+  font-size: var(--text-h1);
+  line-height: 1.1;
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.text-display-h2 {
+  font-size: var(--text-h2);
+  line-height: 1.2;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.text-display-h3 {
+  font-size: var(--text-h3);
+  line-height: 1.35;
+  font-family: var(--font-body);
+  font-weight: 600;
+}
+
+.text-caption-mono {
+  font-size: var(--text-caption);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+/* ==========================================================================
+   Prose — long-form article body copy
+   ========================================================================== */
+
+.article-prose {
+  font-size: var(--text-body);
+  line-height: 1.75;
+  color: var(--color-ink);
+}
+
+.article-prose h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--text-h2);
+  margin-top: 2.75rem;
+  margin-bottom: 1rem;
+  scroll-margin-top: 6rem;
+}
+
+.article-prose h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-h3);
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  scroll-margin-top: 6rem;
+}
+
+.article-prose p {
+  margin-bottom: 1.35rem;
+  color: var(--color-ink-soft);
+}
+
+.article-prose strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
+.article-prose a {
+  color: var(--color-authority);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+}
+
+.article-prose ul,
+.article-prose ol {
+  margin-bottom: 1.35rem;
+  padding-left: 1.25rem;
+  color: var(--color-ink-soft);
+}
+
+.article-prose li {
+  margin-bottom: 0.5rem;
+}
+
+.article-prose ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.article-prose ul > li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.article-prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0.15rem;
+  top: 0.65rem;
+  width: 6px;
+  height: 6px;
+  background: var(--color-signal);
+  border-radius: 1px;
+}
+
+.article-prose ol {
+  counter-reset: prose-step;
+  list-style: none;
+}
+
+.article-prose ol > li {
+  counter-increment: prose-step;
+  position: relative;
+  padding-left: 2.25rem;
+  margin-bottom: 1rem;
+}
+
+.article-prose ol > li::before {
+  content: counter(prose-step);
+  position: absolute;
+  left: 0;
+  top: 0.05rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 6px;
+  background: var(--color-authority);
+  color: var(--color-paper);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ==========================================================================
+   Animated underline link — used across navbar + inline text links
+   ========================================================================== */
+
+.link-underline {
+  position: relative;
+  text-decoration: none;
+  background-image: linear-gradient(var(--color-authority), var(--color-authority));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1.5px;
+  transition: background-size var(--transition-smooth);
+  padding-bottom: 2px;
+}
+
+.link-underline:hover,
+.link-underline:focus-visible {
+  background-size: 100% 1.5px;
+}
+
+/* ==========================================================================
+   Card hover — translateY + soft shadow, per motion rules
+   ========================================================================== */
+
+.card-hover {
+  transition:
+    transform var(--transition-smooth),
+    box-shadow var(--transition-smooth),
+    border-color var(--transition-smooth);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px -12px rgba(15, 25, 35, 0.18);
+  border-color: var(--color-authority);
+}
+
+/* ==========================================================================
+   Scrollbar-less horizontal scroller (nav pills, mobile tool rows)
+   ========================================================================== */
+
+.scroll-x-mask {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scroll-x-mask::-webkit-scrollbar {
+  display: none;
+}
+
+/* ==========================================================================
+   Entrance motion — fade + slide-up, no bounce. Used once on hero load.
+   ========================================================================== */
+
+@keyframes fade-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-up {
+  animation: fade-slide-up var(--transition-spring) both;
+}
+
+/* ==========================================================================
+   Reduced motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
