@@ -1,6 +1,22 @@
 import type { ArticleMeta } from "./types";
 
-const SITE_URL = "https://lexaiguide.com";
+// Single source of truth for the site's canonical origin — used for
+// canonical tags, Open Graph, JSON-LD, sitemap.xml, and robots.txt.
+// Set NEXT_PUBLIC_SITE_URL once a custom domain is live (e.g.
+// https://lexaiguide.com) and every one of those updates automatically,
+// no code changes needed. Until then this falls back to whatever
+// Vercel/Netlify report as the current deployment's real production
+// URL, so nothing ever points at a domain the site isn't actually on.
+function resolveSiteUrl(): string {
+  if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  if (process.env.URL) return process.env.URL; // Netlify's production URL
+  return "https://lexai-guide.vercel.app";
+}
+
+const SITE_URL = resolveSiteUrl();
 const SITE_NAME = "LexAI Guide";
 
 export function articleSchema(article: ArticleMeta) {

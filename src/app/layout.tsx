@@ -5,7 +5,7 @@ import Footer from "@/components/layout/Footer";
 import CookieConsent from "@/components/layout/CookieConsent";
 import ConsentGatedAdsenseScript from "@/components/ads/ConsentGatedAdsenseScript";
 import JsonLd from "@/components/seo/JsonLd";
-import { organizationSchema } from "@/lib/schema";
+import { organizationSchema, SITE_URL } from "@/lib/schema";
 import "./globals.css";
 
 const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
@@ -32,7 +32,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://lexaiguide.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "LexAI Guide — Know Your Rights. Skip the Bill.",
     template: "%s | LexAI Guide",
